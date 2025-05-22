@@ -1,4 +1,4 @@
-# RV Capital Bond Data Platform
+# Bond Data Platform
 
 A full-stack application for tracking and analyzing bond market data from NSE and BSE exchanges.
 
