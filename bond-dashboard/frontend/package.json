@@ -2,6 +2,7 @@
   "name": "bond-dashboard-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://archit-lal.github.io/bond-tracker",
   "dependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "@testing-library/jest-dom": "^5.17.0",
