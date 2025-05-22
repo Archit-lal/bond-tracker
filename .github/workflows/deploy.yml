@@ -28,24 +28,32 @@ jobs:
           ls -la
           echo "Bond-dashboard directory contents:"
           ls -la bond-dashboard || echo "Bond-dashboard directory not found"
+          echo "Frontend directory contents:"
+          ls -la bond-dashboard/frontend || echo "Frontend directory not found"
+          echo "Package files:"
+          ls -la bond-dashboard/frontend/package*.json || echo "Package files not found"
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: 'bond-dashboard/frontend/package-lock.json'
+          cache-dependency-path: |
+            bond-dashboard/frontend/package-lock.json
+            bond-dashboard/frontend/package.json
       
       - name: Install Dependencies
+        working-directory: bond-dashboard/frontend
         run: |
-          cd bond-dashboard/frontend
-          echo "Installing dependencies in frontend directory..."
+          echo "Current directory: $(pwd)"
+          echo "Installing dependencies..."
           npm ci
       
       - name: Build
+        working-directory: bond-dashboard/frontend
         run: |
-          cd bond-dashboard/frontend
-          echo "Building in frontend directory..."
+          echo "Current directory: $(pwd)"
+          echo "Building application..."
           npm run build
       
       - name: List Build Output
