@@ -28,15 +28,49 @@ jobs:
           node-version: '18'
           cache: 'npm'
       
+      - name: Debug Directory Structure
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
+          echo "Frontend directory contents:"
+          ls -la frontend || echo "Frontend directory not found"
+      
       - name: Install Dependencies
         run: |
-          cd frontend
-          npm install
+          if [ -d "frontend" ]; then
+            cd frontend
+            echo "Installing dependencies in frontend directory..."
+            npm install
+          else
+            echo "Frontend directory not found. Checking root directory..."
+            ls -la
+            echo "Installing dependencies in root directory..."
+            npm install
+          fi
       
       - name: Build
         run: |
-          cd frontend
-          npm run build
+          if [ -d "frontend" ]; then
+            cd frontend
+            echo "Building in frontend directory..."
+            npm run build
+          else
+            echo "Building in root directory..."
+            npm run build
+          fi
+      
+      - name: List Build Output
+        run: |
+          if [ -d "frontend/build" ]; then
+            echo "Frontend build directory contents:"
+            ls -la frontend/build
+          elif [ -d "build" ]; then
+            echo "Root build directory contents:"
+            ls -la build
+          else
+            echo "No build directory found!"
+            ls -la
+          fi
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
