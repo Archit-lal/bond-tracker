@@ -131,6 +131,10 @@ const BondList = () => {
               <div key={i} className="h-12 bg-rv-gray-100 rounded-lg animate-pulse"></div>
             ))}
           </div>
+        ) : error ? (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            {error}
+          </div>
         ) : filteredBonds.length === 0 ? (
           <div className="bg-rv-gray-50 border border-rv-gray-200 text-rv-gray-700 px-4 py-3 rounded-lg">
             No bonds found matching your criteria

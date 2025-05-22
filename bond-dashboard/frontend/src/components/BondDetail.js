@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import axios from 'axios';
+// import axios from 'axios';
 
 // Import services
 import apiService from '../services/apiService';
