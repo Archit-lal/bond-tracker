@@ -32,44 +32,46 @@ jobs:
         run: |
           echo "Current directory: $(pwd)"
           ls -la
-          echo "Frontend directory contents:"
-          ls -la frontend || echo "Frontend directory not found"
+          echo "Bond-dashboard directory contents:"
+          ls -la bond-dashboard || echo "Bond-dashboard directory not found"
       
       - name: Install Dependencies
         run: |
-          if [ -d "frontend" ]; then
-            cd frontend
+          if [ -d "bond-dashboard/frontend" ]; then
+            cd bond-dashboard/frontend
             echo "Installing dependencies in frontend directory..."
             npm install
           else
-            echo "Frontend directory not found. Checking root directory..."
-            ls -la
-            echo "Installing dependencies in root directory..."
+            echo "Frontend directory not found in bond-dashboard. Checking bond-dashboard directory..."
+            ls -la bond-dashboard
+            echo "Installing dependencies in bond-dashboard directory..."
+            cd bond-dashboard
             npm install
           fi
       
       - name: Build
         run: |
-          if [ -d "frontend" ]; then
-            cd frontend
+          if [ -d "bond-dashboard/frontend" ]; then
+            cd bond-dashboard/frontend
             echo "Building in frontend directory..."
             npm run build
           else
-            echo "Building in root directory..."
+            echo "Building in bond-dashboard directory..."
+            cd bond-dashboard
             npm run build
           fi
       
       - name: List Build Output
         run: |
-          if [ -d "frontend/build" ]; then
+          if [ -d "bond-dashboard/frontend/build" ]; then
             echo "Frontend build directory contents:"
-            ls -la frontend/build
-          elif [ -d "build" ]; then
-            echo "Root build directory contents:"
-            ls -la build
+            ls -la bond-dashboard/frontend/build
+          elif [ -d "bond-dashboard/build" ]; then
+            echo "Bond-dashboard build directory contents:"
+            ls -la bond-dashboard/build
           else
             echo "No build directory found!"
-            ls -la
+            ls -la bond-dashboard
           fi
       
       - name: Setup Pages
@@ -78,7 +80,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './frontend/build'
+          path: './bond-dashboard/frontend/build'
 
   deploy:
     environment:
