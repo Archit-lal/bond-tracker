@@ -22,12 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
       - name: Debug Directory Structure
         run: |
           echo "Current directory: $(pwd)"
@@ -35,44 +29,29 @@ jobs:
           echo "Bond-dashboard directory contents:"
           ls -la bond-dashboard || echo "Bond-dashboard directory not found"
       
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'bond-dashboard/frontend/package-lock.json'
+      
       - name: Install Dependencies
         run: |
-          if [ -d "bond-dashboard/frontend" ]; then
-            cd bond-dashboard/frontend
-            echo "Installing dependencies in frontend directory..."
-            npm install
-          else
-            echo "Frontend directory not found in bond-dashboard. Checking bond-dashboard directory..."
-            ls -la bond-dashboard
-            echo "Installing dependencies in bond-dashboard directory..."
-            cd bond-dashboard
-            npm install
-          fi
+          cd bond-dashboard/frontend
+          echo "Installing dependencies in frontend directory..."
+          npm ci
       
       - name: Build
         run: |
-          if [ -d "bond-dashboard/frontend" ]; then
-            cd bond-dashboard/frontend
-            echo "Building in frontend directory..."
-            npm run build
-          else
-            echo "Building in bond-dashboard directory..."
-            cd bond-dashboard
-            npm run build
-          fi
+          cd bond-dashboard/frontend
+          echo "Building in frontend directory..."
+          npm run build
       
       - name: List Build Output
         run: |
-          if [ -d "bond-dashboard/frontend/build" ]; then
-            echo "Frontend build directory contents:"
-            ls -la bond-dashboard/frontend/build
-          elif [ -d "bond-dashboard/build" ]; then
-            echo "Bond-dashboard build directory contents:"
-            ls -la bond-dashboard/build
-          else
-            echo "No build directory found!"
-            ls -la bond-dashboard
-          fi
+          echo "Build directory contents:"
+          ls -la bond-dashboard/frontend/build
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
